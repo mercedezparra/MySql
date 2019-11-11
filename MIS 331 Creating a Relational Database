@@ -1,0 +1,50 @@
+USE mercedezparra_workspace;
+
+CREATE TABLE Student_T
+	(StudentID INT NOT NULL,
+    StudentName VARCHAR(25),
+    CONSTRAINT Student_PK PRIMARY KEY (StudentID));
+
+CREATE TABLE Faculty_T
+	(FacultyID INT NOT NULL,
+    FacultyName VARCHAR(25),
+	CONSTRAINT Faculty_PK PRIMARY KEY (FacultyID));
+    
+CREATE TABLE Course_T
+	(CourseID CHAR(8) NOT NULL,
+    CourseName VARCHAR(15),
+    CONSTRAINT Course_PK PRIMARY KEY (CourseID));
+
+CREATE TABLE Qualified_T 
+	(FacultyID INT NOT NULL,
+    CourseID CHAR(8) NOT NULL,
+    DateQualified DATE,
+    CONSTRAINT Qualified_PK PRIMARY KEY (FacultyID, CourseID),
+    CONSTRAINT Qualified_FK1 FOREIGN KEY (FacultyID) REFERENCES Faculty_T(FacultyID),
+    CONSTRAINT Qualified_FK2 FOREIGN KEY (CourseID) REFERENCES Course_T(CourseID));
+    
+CREATE TABLE Section_T
+	(SectionNo INT NOT NULL,
+    Semester VARCHAR(7),
+    CourseID CHAR(8),
+    CONSTRAINT Section_PK PRIMARY KEY (SectionNo),
+    CONSTRAINT Section_FK FOREIGN KEY (CourseID) REFERENCES Course_T(CourseID));
+
+CREATE TABLE Registration_T
+	(StudentID INT NOT NULL,
+    SectionNo INT NOT NULL,
+    CONSTRAINT Registration_PK PRIMARY KEY (StudentID, SectionNo),
+    CONSTRAINT Registration_FK1 FOREIGN KEY (StudentID) REFERENCES Student_T(StudentID),
+    CONSTRAINT Registration_FK2 FOREIGN KEY (SectionNo) REFERENCES Section_T(SectionNo));
+    
+ INSERT INTO Course_T (CourseID, CourseName) 
+ VALUES ('ISM 3113', 'Syst Analysis');
+ 
+ INSERT INTO Course_T (CourseID, CourseName)
+ VALUES ('ISM 3112', 'Syst Design');
+ 
+ INSERT INTO Course_T (CourseID, CourseName)
+ VALUES ('ISM 4212', 'Database');
+ 
+ INSERT INTO Course_T (CourseID, CourseName)
+ VALUES ('ISM 4930', 'Network');
